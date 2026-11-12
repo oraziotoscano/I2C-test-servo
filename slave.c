@@ -35,3 +35,26 @@ void slave_conf(){
     i2c_slave_dev_handle_t slave_handle;    //slave handle
     ESP_ERROR_CHECK(i2c_new_slave_device(&slave_config, &slave_handle));    //new slave
 }
+
+//servo2 config (timer and channel)
+void servo_init(){
+    ledc_timer_config_t timer = {  //TIMER
+        .speed_mode = SERVO_MODE,
+        .timer_num = TIMER,
+        .duty_resolution = LEDC_TIMER_16_BIT,
+        .freq_hz = 50,
+        .clk_cfg = LEDC_AUTO_CLK,
+    };
+    ledc_timer_config(&timer);
+
+
+    ledc_channel_config_t channel = {
+        .gpio_num = SERVO_PIN_SECOND,
+        .speed_mode = SERVO_MODE,
+        .channel = SERVO_CHANNEL,
+        .timer_sel = TIMER,
+        .duty = 0,
+        .hpoint = 0,
+    };
+    ledc_channel_config(&channel);
+}
